@@ -1,0 +1,6 @@
+CREATE TABLE todos (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(100) NOT NULL,
+  isDone BOOLEAN DEFAULT false,
+  create_at TIMESTAMP DEFAULT now() 
+);
