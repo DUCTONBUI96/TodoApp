@@ -24,27 +24,22 @@ app.use("/api",routerTODO)
 app.use(errorHandling)
 
 //TESTING POSTGRES
-app.get("/", async (req, res) => {
-    try {
-      const result = await pool.query("SELECT current_database()");
-      res.json({
-        status: "ok",
-        database: result.rows[0].current_database,
-        message: "API is working 🚀",
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        status: "error",
-        message: "Database connection failed",
-      });
-    }
-  });
+app.get("/todos", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT id, title, isdone FROM todos");
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
   
 
 
 //server runing 
-app.listen(port,()=>{
-    console.log(`server is running on http://localhost:${port}`);
-
+// đúng (nghe ở mọi IP trong LAN, bao gồm IPv4 của bạn)
+app.listen(port, "0.0.0.0", () => {
+  console.log(`Server is running at http://192.168.102.105:${port}`);
 });
+

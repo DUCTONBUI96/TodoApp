@@ -5,29 +5,38 @@ import { useEffect, useState } from "react";
 import { FlatList, Image, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView, } from "react-native-safe-area-context";
 
+
 type ToDOType= {
   id:number;
   title:string;
   isDone:boolean;
 }
 
+
 export default function Index() {
-  const todoData = [
-    {id: 1, title:"to do 1" , isDone: false},
-    {id: 2, title:"to do 2" , isDone: false},
-    {id: 3, title:"to do 3" , isDone: false},
-    {id: 4, title:"to do 4" , isDone: false},
-    {id: 5, title:"to do 5" , isDone: false},
-    {id: 6, title:"to do 6" , isDone: false},
-    {id: 7, title:"to do 7" , isDone: true},
-    {id: 8, title:"to do 8" , isDone: false},
-    {id: 9, title:"to do 9" , isDone: false},
-  ]
-  
   const [todos,setTodos] = useState<ToDOType[]>([]);
   const [todoText,setTodoText] = useState<string>('');
   const [searchQuery,setSearchQuery]=useState<string>('');
   const [oldTodos,setOldTodos]=useState<ToDOType[]>([]);
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        console.log("Fetching todos from API...");
+        const res = await fetch("http://192.168.102.105:3001/todos");
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data: ToDOType[] = await res.json();
+        console.log("API response:", data);
+        setTodos(data);
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
+    };
+  
+    fetchTodos();
+  }, []);
+
 
   useEffect(()=> {
     const getTodos = async()=>{
