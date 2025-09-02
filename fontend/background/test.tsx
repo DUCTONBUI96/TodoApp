@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { FlatList, Image, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView, } from "react-native-safe-area-context";
 import Categories from "@/src/components/Categories";
-import CreateNewTask from "@/src/components/CreateNewTask";
+
 type ToDOType= {
   id:number;
   title:string;
@@ -114,8 +114,6 @@ export default function Index() {
     onSearch(searchQuery);
   },[searchQuery]);
 
-  const [createNewTask,setCreateNewTask] = useState<boolean>(false);
-
   return (
     <SafeAreaView style = {styles.container}>
       <View style = {styles.header}>
@@ -131,8 +129,17 @@ export default function Index() {
       </TouchableOpacity>
      </View>
 
-      {/* Categories */}
-     <Categories/>
+     <View style = {styles.searchBar}>
+      <Ionicons name="search" size={24} color = {'#333'} />
+
+      <TextInput 
+      placeholder="Search" 
+      value = {searchQuery}
+      onChangeText={(text)=>setSearchQuery(text)}
+      style={styles.searchInput} 
+      clearButtonMode="always"
+      />
+     </View>
 
       <FlatList 
       data = {[...todos].reverse()} 
@@ -157,16 +164,12 @@ export default function Index() {
           autoCorrect = {false}
         />
 
-        {/* {!createNewTask ?( */}
         <TouchableOpacity 
           style = {styles.addButton} 
-          onPress = {()=>setCreateNewTask(true)}
+          onPress = {()=>addTodo()}
         >
           <Ionicons name = "add" size={34} color = {'#fff'}/>
         </TouchableOpacity>
-        {/* ):(
-          <CreateNewTask/>
-        )} */}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -222,6 +225,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+
+  searchBar: { 
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    alignItems:'center',
+    paddingHorizontal : 16,
+    paddingVertical:Platform.OS ==='ios'? 16:8,
+    borderRadius : 10,
+    gap : 10,
+    marginBottom:20,
+  },
+  searchInput:{
+    flex:1,
+    fontSize:14,
+    color:'#333',
   },
   todocontainer:{
     flexDirection:'row',

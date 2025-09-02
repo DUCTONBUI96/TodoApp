@@ -1,4 +1,4 @@
-import {createToDos,getAllToDos,deleteToDos} from "../models/ToDoModels.js";
+import {createToDos,getAllToDos} from "../models/ToDoModels.js";
 //Standardized response function
 const handleResponse = (res,status,message,data)=>{
     res.status(status).json({
@@ -29,13 +29,13 @@ export const AllToDo = async (req,res,next)=>{
     }
 }
 
-export const deleteToDo = async (req,res,next)=>{
-    const {id}=req.body;
-    try{
-        const allTodo = await deleteToDos(id);
-        handleResponse(res,201,"successfully",allTodo)
-    }   
-    catch(err){
-       next(err); 
-    }
-}
+// export const deleteToDo = async (req,res,next)=>{
+//     const {id}=req.body;
+//     try{
+//         const allTodo = await deleteToDos(id);
+//         handleResponse(res,201,"successfully",allTodo)
+//     }   
+//     catch(err){
+//        next(err); 
+//     }
+// }

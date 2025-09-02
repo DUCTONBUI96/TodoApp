@@ -4,7 +4,6 @@ import dotnev from "dotenv";
 import pool from "./config/db.js";
 import routerTODO from './routes/RoutesTODO.js';
 import errorHandling from './middlewares/errorHandler.js';
-import createToDoTable from './data/createTodoTable.js';
 
 dotnev.config();
 
@@ -26,7 +25,7 @@ app.use(errorHandling)
 //TESTING POSTGRES
 app.get("/todos", async (req, res) => {
   try {
-    const result = await pool.query("SELECT id, title, isdone FROM todos");
+    const result = await pool.query("SELECT id, title, isdone FROM tasks");
     res.json(result.rows);
   } catch (err) {
     console.error(err.message);
