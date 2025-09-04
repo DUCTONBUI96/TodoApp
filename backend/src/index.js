@@ -25,7 +25,7 @@ app.use(errorHandling)
 //TESTING POSTGRES
 app.get("/todos", async (req, res) => {
   try {
-    const result = await pool.query("SELECT id, title, isdone FROM tasks");
+    const result = await pool.query("SELECT id, title, status FROM tasks");
     res.json(result.rows);
   } catch (err) {
     console.error(err.message);

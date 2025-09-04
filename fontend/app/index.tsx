@@ -18,6 +18,7 @@ export default function Index() {
   const [todoText,setTodoText] = useState<string>('');
   const [searchQuery,setSearchQuery]=useState<string>('');
   const [oldTodos,setOldTodos]=useState<ToDOType[]>([]);
+  const [modalVisible,setModalVisible]=useState(false);
   // useEffect(() => {
   //   const fetchTodos = async () => {
   //     try {
@@ -157,16 +158,17 @@ export default function Index() {
           autoCorrect = {false}
         />
 
-        {/* {!createNewTask ?( */}
         <TouchableOpacity 
           style = {styles.addButton} 
-          onPress = {()=>setCreateNewTask(true)}
+          onPress = {()=>setModalVisible(true)}
         >
           <Ionicons name = "add" size={34} color = {'#fff'}/>
         </TouchableOpacity>
-        {/* ):(
-          <CreateNewTask/>
-        )} */}
+
+          <CreateNewTask
+          visible={modalVisible}
+          onClose={()=>setModalVisible(false)}
+          />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
